@@ -25,3 +25,33 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Arquivos de ambiente (contém senhas, chaves, etc — NUNCA subir)
+.env
+.env.backup
+.env.production
+.env.*.local
+
+# Laravel
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/storage/logs/*.log
+/bootstrap/cache/*.php
+!/bootstrap/cache/.gitkeep
+
+# IDE / SO
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+
+# Testes
+.phpunit.result.cache
+/coverage
+
