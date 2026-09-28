@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\DeliveryZoneController;
 use App\Http\Controllers\Api\CourierSettlementController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AppointmentController;
 
 // Rotas públicas
 Route::post('register', [AuthController::class, 'register']);
@@ -26,6 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class);
     Route::get('products/{product}/stock-entries', [StockEntryController::class, 'index']);
     Route::post('stock-entries', [StockEntryController::class, 'store']);
+    
+    //Agendamentos
+    Route::apiResource('appointments', AppointmentController::class)->only(['index', 'store', 'update', 'destroy']);
 
     // Pedidos
     Route::apiResource('orders', OrderController::class)->only(['index', 'store', 'update', 'destroy']);
