@@ -43,7 +43,15 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $validated['email'])->first();
+        try {
+            $user = User::where('email', $validated['email'])->first();
+        } catch (\Illuminate\Database\QueryException $e) {
+            \Illuminate\Support\Facades\Log::error('Erro NeonDB no login: ' . $e->getMessage());
+
+            throw ValidationException::withMessages([
+                'email' => ['Serviço temporariamente indisponível. Tente novamente mais tarde.'],
+            ]);
+        }
 
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             throw ValidationException::withMessages([
