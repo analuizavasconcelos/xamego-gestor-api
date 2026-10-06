@@ -1,18 +1,24 @@
-'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'register', 'logout'],
+<?php
 
-'allowed_methods' => ['*'],
+return [
 
-'allowed_origins' => [
-    'https://xamego-gestor-web.vercel.app',
-    'http://localhost:5173', 
-],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'register', 'logout'],
 
-'allowed_origins_patterns' => [],
+    'allowed_methods' => ['*'],
 
-'allowed_headers' => ['*'],
+    'allowed_origins' => [
+        'https://xamego-gestor-web.vercel.app',
+        'http://localhost:5173',
+    ],
 
-'exposed_headers' => [],
+    'allowed_origins_patterns' => [],
 
-'max_age' => 0,
+    'allowed_headers' => ['*'],
 
-'supports_credentials' => true,
+    'exposed_headers' => [],
+
+    'max_age' => 0,
+
+    'supports_credentials' => false,
+
+];
