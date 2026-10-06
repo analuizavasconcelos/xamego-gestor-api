@@ -16,6 +16,8 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        abort_unless(config('app.allow_registration'), 403, 'Cadastro desabilitado.');
+
         $validated = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
@@ -105,6 +107,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->tokens()
+        ->where('id', '!=', $user->currentAccessToken()->id)
+        ->delete();
+
         return response()->json(['message' => 'Senha alterada com sucesso!']);
     }
 
@@ -114,18 +120,10 @@ class AuthController extends Controller
             'email' => 'required|email',
         ]);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        Password::sendResetLink($request->only('email'));
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json([
-                'message' => 'Enviamos o link de recuperação para o seu e-mail!'
-            ]);
-        }
-
-        throw ValidationException::withMessages([
-            'email' => [__($status)],
+        return response()->json([
+            'message' => 'Se o e-mail estiver cadastrado, enviaremos o link de recuperação.',
         ]);
     }
 
@@ -145,6 +143,8 @@ class AuthController extends Controller
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
+
+                $user->tokens()->delete();
 
                 event(new PasswordReset($user));
             }

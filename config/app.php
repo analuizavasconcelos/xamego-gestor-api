@@ -29,6 +29,7 @@ return [
     'env' => env('APP_ENV', 'production'),
 
     'frontend_url' => env('APP_FRONTEND_URL', 'http://localhost:5173'),
+    'allow_registration' => env('ALLOW_REGISTRATION', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +68,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'America/Sao_Paulo'),
 
     /*
     |--------------------------------------------------------------------------
